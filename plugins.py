@@ -1,5 +1,5 @@
 # TODO: convert to return attr enums and things
-from datetime import time, datetime as dt, timedelta
+from datetime import datetime as dt, timedelta
 from subprocess import run
 from threading import Timer
 from interval import absolute, IntervalType
@@ -35,7 +35,7 @@ def get_heart_rate():
             wf.write(f'{dt.now()},{got}')
 
 absolute(timedelta(days=1), get_heart_rate,
-        dt.combine(dt.today(), time.min) + timedelta(hours=4))
+        dt.combine(dt.today(), dt.min.time()) + timedelta(days=1, hours=4))
 
 intervals = {
         'daylio': {
