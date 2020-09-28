@@ -1,5 +1,5 @@
 from threading import Timer
-from datetime import datetime as dt
+from datetime import datetime as dt, timedelta
 from enum import Enum, auto
 
 class IntervalType(Enum):
@@ -20,4 +20,6 @@ def relative(interval, callback):
     Timer(interval.total_seconds(), relative,
             (interval, callback)).start()
     callback()
+
+absolute(timedelta(seconds=10), print_time)
 
