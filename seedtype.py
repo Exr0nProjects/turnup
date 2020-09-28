@@ -48,6 +48,6 @@ class Time(Seedshape):
             return sorted(acctype)[len(acctype)/2]  # TODO: horribly inefficient
         elif acctype is AccumulationType.AVERAGE:
             return sum(acctype) / len(acctype)      # TODO: also horribly inefficient
-        else
+        else:
             raise TypeError(f"Invalid operation {str(acctype)} on times")
 
