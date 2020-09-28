@@ -1,19 +1,15 @@
 # TODO: convert to return attr enums and things
-from datetime import time, datetime, timedelta
+from datetime import time, datetime as dt, timedelta
 from subprocess import run
 from threading import Timer
 from interval import absolute, IntervalType
-
-MINUTE  = 60
-HOUR    = 60*MINUTE
-DAY     = 24*HOUR
 
 def daylio_ping():
     # INTERVAL = 20*60
     # INTERVAL = 10
     DATA_PATH = 'autotrack/data/daylio_response_time.csv'
 
-    send = now()
+    send = dt.now()
     got = run(['alerter',
         '-message', 'Use Daylio',
         '-timeout', str(intervals['daylio']['interval']),
@@ -22,7 +18,7 @@ def daylio_ping():
         '-closeLabel', 'Skip'],
         capture_output=True).stdout.decode('UTF-8')
     # Timer(INTERVAL, ping_alerter).start()
-    recv = now()
+    recv = dt.now()
     with open(DATA_PATH, 'a') as wf:
         wf.write(f'{send},{recv},{recv-send},{int(got=="Done")}\n')
     print('daylio', send, recv, recv-send, got)
@@ -36,14 +32,14 @@ def get_heart_rate():
         capture_output=True).stdout.decode('UTF-8')
     if got != '@CLOSED':
         with open(EXPORT_PATH, 'a') as wf:
-            wf.write(f'{now()},{got}')
+            wf.write(f'{dt.now()},{got}')
 
-absolute(DAY, get_heart_rate,
-        datetime.combine(datetime.today(), time.min) + timedelta(hours=4))
+absolute(timedelta(days=1), get_heart_rate,
+        dt.combine(dt.today(), time.min) + timedelta(hours=4))
 
 intervals = {
         'daylio': {
-            'interval': 20*60,
+            'interval': timedelta(minutes=20),
             'type': IntervalType.ABSOLUTE,
             'callback': daylio_ping
             }

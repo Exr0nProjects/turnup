@@ -1,5 +1,5 @@
 from threading import Timer
-from time import time
+from datetime import datetime as dt
 from enum import Enum, auto
 
 class IntervalType(Enum):
@@ -7,18 +7,17 @@ class IntervalType(Enum):
     RELATIVE = auto()
 
 def print_time():
-    print('noop called at', time())
+    print('noop called at', dt.now())
 
-def absolute(interval, callback, target=time()):
-    if target <= time():
+def absolute(interval, callback, target=dt.now()):
+    if target <= dt.now():
         callback()
         target += interval
-    Timer(time()-target, absolute,
+    Timer(dt.now()-target, absolute,
             (interval, callback, target)).start()
 
 def relative(interval, callback):
-    Timer(interval, between,
+    Timer(interval, relative,
             (interval, callback)).start()
     callback()
-
 
