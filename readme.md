@@ -8,5 +8,5 @@ It's the squares app!
 - I like tracking data about myself
 - I want to learn some data visualization
 
-So here we are!
+So here we are, trying to implent [Pitaya](https://github.com/exr0nprojects/pitaya)'s slicing.
 
