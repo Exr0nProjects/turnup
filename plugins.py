@@ -34,8 +34,8 @@ def get_heart_rate():
         with open(EXPORT_PATH, 'a') as wf:
             wf.write(f'{dt.now()},{got}')
 
-# absolute(timedelta(days=1), get_heart_rate,
-        # dt.combine(dt.today(), dt.min.time()) + timedelta(hours=4))
+absolute(timedelta(days=1), get_heart_rate,
+        dt.combine(dt.today(), dt.min.time()) + timedelta(hours=4))
 
 intervals = {
         'daylio': {
