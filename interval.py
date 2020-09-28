@@ -13,11 +13,11 @@ def absolute(interval, callback, target=dt.now()):
     if target <= dt.now():
         callback()
         target += interval
-    Timer(dt.now()-target, absolute,
+    Timer((dt.now()-target).total_seconds(), absolute,
             (interval, callback, target)).start()
 
 def relative(interval, callback):
-    Timer(interval, relative,
+    Timer(interval.total_seconds(), relative,
             (interval, callback)).start()
     callback()
 
