@@ -40,7 +40,7 @@ absolute(timedelta(days=1), get_heart_rate,
 intervals = {
         'daylio': {
             'interval': timedelta(minutes=20),
-            'type': IntervalType.ABSOLUTE,
+            'type': IntervalType.RELATIVE,
             'callback': daylio_ping
             }
         }
