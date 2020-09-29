@@ -13,7 +13,7 @@ def daylio_ping():
     got = run(['alerter',
         '-message', 'Use Daylio',
         '-timeout', str(intervals['daylio']['interval']),
-        '-appIcon', 'https://imgur.com/nOsmCE3.png',
+        '-appIcon', 'https://i.imgur.com/nOsmCE3.png',
         '-actions', 'Done',
         '-closeLabel', 'Skip'],
         capture_output=True).stdout.decode('UTF-8')
@@ -27,7 +27,7 @@ def get_heart_rate():
     EXPORT_PATH = 'autotrack/data/heartrate.csv'
     got = run(['alerter',
         '-message', "What's your morning heart rate?",
-        '-appIcon', '',
+        '-appIcon', 'https://i.imgur.com/MYMuHdp.png',
         '-reply',   '80'],
         capture_output=True).stdout.decode('UTF-8')
     if got != '@CLOSED':
