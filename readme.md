@@ -1,5 +1,7 @@
 # Turnup - turn yourself up
 
+![Turnup](./turnup_banner.png)
+
 It's the squares app!
 
 ## Vision
