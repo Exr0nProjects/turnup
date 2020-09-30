@@ -12,7 +12,7 @@ def daylio_ping():
     send = dt.now()
     got = run(['alerter',
         '-message', 'Use Daylio',
-        '-timeout', str(intervals['daylio']['interval']),
+        '-timeout', str(intervals['daylio']['interval'].seconds),
         '-appIcon', 'https://i.imgur.com/nOsmCE3.png',
         '-actions', 'Done',
         '-closeLabel', 'Skip'],
@@ -32,7 +32,7 @@ def get_heart_rate():
         capture_output=True).stdout.decode('UTF-8')
     if got != '@CLOSED':
         with open(EXPORT_PATH, 'a') as wf:
-            wf.write(f'{dt.now()},{got}')
+            wf.write(f'{dt.now().timestamp()},{got}\n')
 
 absolute(timedelta(days=1), get_heart_rate,
         dt.combine(dt.today(), dt.min.time()) + timedelta(hours=4))
@@ -44,3 +44,4 @@ intervals = {
             'callback': daylio_ping
             }
         }
+
