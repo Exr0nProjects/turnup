@@ -13,6 +13,7 @@ def absolute(interval, callback, target=dt.now()):
     if target <= dt.now():
         callback()
         target += interval
+    print("next at ", target, "after", target-dt.now())
     Timer((target-dt.now()).total_seconds(), absolute,
             (interval, callback, target)).start()
 
