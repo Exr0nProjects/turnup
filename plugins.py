@@ -3,11 +3,12 @@ from datetime import datetime as dt, timedelta
 from subprocess import run
 from threading import Timer
 from interval import absolute, IntervalType
+from os import getenv
 
 def daylio_ping():
     # INTERVAL = 20*60
     # INTERVAL = 10
-    DATA_PATH = 'autotrack/data/daylio_response_time.csv'
+    DATA_PATH = getenv('XDG_DATA_HOME') + 'autotrack/daylio_response_time.csv'
 
     send = dt.now()
     got = run(['alerter',
@@ -24,7 +25,7 @@ def daylio_ping():
     print('daylio', send, recv, recv-send, got)
 
 def get_heart_rate():
-    EXPORT_PATH = 'autotrack/data/heartrate.csv'
+    EXPORT_PATH = getenv('XDG_DATA_HOME') + 'autotrack/heartrate.csv'
     got = run(['alerter',
         '-message', "What's your morning heart rate?",
         '-appIcon', 'https://i.imgur.com/MYMuHdp.png',
