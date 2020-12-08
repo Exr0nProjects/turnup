@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>squaress</title>
+        <script src='moment.min.js'></script>
+    </head>
+    <body>
+        <div id="squareholder">
+            <div class="dayrow"></div>
+            <div class="dayrow"></div>
+            <div class="dayrow"></div>
+            <div class="dayrow"></div>
+            <div class="dayrow"></div>
+            <div class="dayrow"></div>
+            <div class="dayrow"></div>
+        </div>
+        <script>
+fetch('toggl.tsv')
+    .then(res => res.text())    // TODO: stream processing
+    .then(console.log);
+        </script>
+    </body>
+</html>
+
