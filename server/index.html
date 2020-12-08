@@ -3,6 +3,22 @@
     <head>
         <title>squaress</title>
         <script src='moment.min.js'></script>
+<style>
+.dayrow {
+    height: 20px;
+    border: 1px solid red;
+    padding: 0px;
+}
+.square {
+    height: 10px;
+    width: 10px;
+    border: 1px solid green;
+    display: inline-block;
+    margin: 2px;
+    padding: 0px;
+}
+
+</style>
     </head>
     <body>
         <div id="squareholder">
@@ -15,9 +31,23 @@
             <div class="dayrow"></div>
         </div>
         <script>
+const squareholder = document.getElementsByClassName('dayrow');
+squareholder.forEach(row => {
+    for (let i=0; i<52; i++) {
+        row.addChild(
+    }
+});
 fetch('toggl.tsv')
     .then(res => res.text())    // TODO: stream processing
-    .then(console.log);
+    .then(text => text.split('\n'))
+    .then(arr => arr.forEach(
+        row => {
+            const [id, desc, start, end] = row.split('	');
+            const weekday = squareholder[moment(start).day()];
+            weekday.insertBefore(square, weekday.childNodes[0]);
+            //console.log(id, desc, moment(start), moment(end));
+        }
+    )).catch(console.err);
         </script>
     </body>
 </html>
