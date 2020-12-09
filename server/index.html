@@ -30,25 +30,7 @@
             <div class="dayrow"></div>
             <div class="dayrow"></div>
         </div>
-        <script>
-const squareholder = document.getElementsByClassName('dayrow');
-squareholder.forEach(row => {
-    for (let i=0; i<52; i++) {
-        row.addChild(
-    }
-});
-fetch('toggl.tsv')
-    .then(res => res.text())    // TODO: stream processing
-    .then(text => text.split('\n'))
-    .then(arr => arr.forEach(
-        row => {
-            const [id, desc, start, end] = row.split('	');
-            const weekday = squareholder[moment(start).day()];
-            weekday.insertBefore(square, weekday.childNodes[0]);
-            //console.log(id, desc, moment(start), moment(end));
-        }
-    )).catch(console.err);
-        </script>
+        <script src='index.js'></script>
     </body>
 </html>
 
