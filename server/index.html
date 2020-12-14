@@ -3,27 +3,75 @@
     <head>
         <title>squaress</title>
         <script src='moment.min.js'></script>
+        <script src='moment-duration-format.js'></script>
 <style>
 body {
     background-color: #161616;
+    width: 90vw;
+    height: 90vh;
+    position: relative;
+}
+#squareholder {
+    position: absolute;
+    width: 85%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 .dayrow {
-    height: 20px;
+    height: 25px;
     padding: 0px;
 }
 .square {
-    height: 10px;
-    width: 10px;
+    height: 20px;
+    /*overflow: auto;*/
+    width: 20px;
     background-color: #303030;
     display: inline-block;
+    position: relative;
     margin: 2px;
     padding: 0px;
+}
+
+.activated {
+    background-color: green;
+}
+
+.square-tooltip {
+    /* https://www.w3schools.com/css/css_tooltip.asp */
+    visibility: hidden;
+    background-color: black;
+    color: #ffffff;
+    width: 400px;
+    font-size: 10px;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    pointer-events: none;
+
+    /* Position the tooltip text - see examples below! */
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -200px;
+    z-index: 1;
+}
+
+.square:hover .square-tooltip {
+    visibility: visible;
+}
+
+#filtercode {
+    color: #00bb00;
+    font-family: monospace;
+    font-size: 32px;
 }
 
 </style>
     </head>
     <body>
         <div id="squareholder">
+            <span id="filtercode"></span>
             <div class="dayrow"></div>
             <div class="dayrow"></div>
             <div class="dayrow"></div>
