@@ -15,24 +15,21 @@ const matrix_renderers = {
         return <div className="color-matrix">
             <p>hello world with {JSON.stringify(props)}</p>
             <div className="squareholder">
-                {Array.from({length: dayjs().weekday()+1}).map(
+                {Array.from({length: 6-dayjs().weekday()}).map(
                     (_, i) => <div className="color-atom placeholder" key={`placeholder_${i}`}>f</div>
                 )}
-                {Array.from({length: 1}).map(
-                    (_, i) => <ColorAtom custom_key={i}/>
-                    //(_, i) => <div className="color-atom" key={`day_${i}`}>e</div>
+                {Array.from({length: props.count}).map(
+                    (_, i) => <ColorAtom key={`day_${i}`} activitySetter={props.activitySetter} data={props.data}/>
                 )}
             </div>
         </div>;
     }
 }
 
-function ColorMatrix(props) {
+export default function ColorMatrix(props) {
     if (matrix_renderers.hasOwnProperty(props.type))
         return matrix_renderers[props.type](props);
     else
         return <Error msg={`Invalid ColorMatrix Type '${props.type}'!`}/>;
 }
-
-export default ColorMatrix;
 

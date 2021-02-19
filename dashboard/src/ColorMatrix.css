@@ -10,12 +10,6 @@
 	diplay: flex;
 	display: -ms-flexbox;
     display: -webkit-flex;
-	flex-direction: column;
-	flex-wrap: wrap;
-	flex-wrap: wrap;
+	flex-direction: column-reverse;
+	flex-wrap: wrap-reverse;
 }
-
-/* .color-matrix .squareholder div { */
-/* 	display: flex; */
-/* 	flex-direction: column; */
-/* } */

@@ -7,10 +7,15 @@ import ColorMatrix from './ColorMatrix.jsx'
 import logo from './logo.svg';
 import './App.css';
 
+import { useState } from 'react';
+
 dayjs.extend(dayjs_dayOfYear);
 dayjs.extend(dayjs_weekday);
 
 function App() {
+	const [count, setCount] = useState(364); // number of atoms displayed
+	const [active_frame, setActiveFrame] = useState(undefined);
+
     return (
         <div className="App">
             <header className="App-header">
@@ -21,9 +26,9 @@ function App() {
         sidebar!
         </div>
         <div className="main-display">
-            <ColorMatrix type="standard"/>
-            <ColorMatrix type="balanced-gp"/>
-            <ColorMatrix type="does not exist"/>
+            <ColorMatrix count={count} activitySetter={setActiveFrame} type="standard"/>
+            <ColorMatrix count={count} activitySetter={setActiveFrame} type="balanced-gp"/>
+            <ColorMatrix count={count} activitySetter={setActiveFrame} type="does not exist"/>
         main body!
         </div>
             </div>
