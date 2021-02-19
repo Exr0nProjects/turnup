@@ -1,0 +1,21 @@
+.color-matrix {
+	/* width: min(79vw, 89vh); */
+	/* height: min(79vw, 89vh); */
+	border-radius: 2px;
+}
+
+.squareholder {
+	height: 160px;
+	width: 100%;
+	diplay: flex;
+	display: -ms-flexbox;
+    display: -webkit-flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	flex-wrap: wrap;
+}
+
+/* .color-matrix .squareholder div { */
+/* 	display: flex; */
+/* 	flex-direction: column; */
+/* } */

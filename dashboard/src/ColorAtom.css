@@ -1,0 +1,11 @@
+.color-atom {
+	flex: 0 0 10%;
+	width: 20px;
+	height: 20px;
+	border: 1px solid white;
+}
+
+.color-atom.placeholder {
+	border: 0px;
+	margin: 1px;
+}
