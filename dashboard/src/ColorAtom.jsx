@@ -38,7 +38,7 @@ function ColorAtomTooltip(props) {
     });
 
     return <div className="color-atom-tooltip">
-        <div className="atom-canvas">
+        <div className="atom-canvas">   // TODO: use visualization components
             <canvas ref={canvasRef}/>
         </div>
     </div>
@@ -46,8 +46,7 @@ function ColorAtomTooltip(props) {
 
 export default function ColorAtom(props) {
     function clickHandler() {
-        console.log(props);
-        //props.activitySetter(props.data);
+        props.activitySetter(props.data);
     }
     return <div
             className="color-atom"

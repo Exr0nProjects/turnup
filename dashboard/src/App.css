@@ -58,3 +58,8 @@
     border: 2px solid blue;
 	overflow: scroll;
 }
+
+.display-details {
+	display: flex;
+	flex-direction: column;
+}

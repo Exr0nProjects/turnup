@@ -22,17 +22,21 @@ function App() {
                 <img src={logo} className="App-logo" alt="logo" />
             </header>
             <div className="App-body">
-        <div className="sidebar">
-        sidebar!
-        </div>
-        <div className="main-display">
-            <ColorMatrix count={count} activitySetter={setActiveFrame} type="standard"/>
-            <ColorMatrix count={count} activitySetter={setActiveFrame} type="balanced-gp"/>
-            <ColorMatrix count={count} activitySetter={setActiveFrame} type="does not exist"/>
-        main body!
-        </div>
-            </div>
-        </div>
+				<div className="sidebar">
+				sidebar!
+				</div>
+				<div className="main-display">
+					<ColorMatrix count={count} activitySetter={setActiveFrame} type="standard"/>
+					<ColorMatrix count={count} activitySetter={setActiveFrame} type="balanced-gp"/>
+					<ColorMatrix count={count} activitySetter={setActiveFrame} type="does not exist"/>
+					main body!
+
+					<div className="display-details">
+						eeeeee
+					</div>
+				</div>
+			</div>
+		</div>
     );
 }
 
