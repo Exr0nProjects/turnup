@@ -27,5 +27,5 @@
 
 .color-atom-tooltip .atom-canvas {
 	width: 400px;
-	height: 200px;
+	padding: 10px;
 }

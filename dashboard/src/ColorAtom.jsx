@@ -27,14 +27,15 @@ function ColorAtomTooltip(props) {
             'Yello',
             'Blu'
         ],
-        options: chartOptions
+            options: chartOptions,
     }
 
     useEffect(() => { // something about https://reactjs.org/docs/hooks-effect.html
-        new Chart(canvasRef.current.getContext("2d"), {
+        const got = new Chart(canvasRef.current.getContext("2d"), {
             type: 'polarArea',
-            data: data // TODO: data processing!
+            data: data, // TODO: data processing!
         });
+        console.log('got', got);
     });
 
     return <div className="color-atom-tooltip">

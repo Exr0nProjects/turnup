@@ -2,7 +2,8 @@ import dayjs_dayOfYear from "dayjs/plugin/dayOfYear";
 import dayjs_weekday from "dayjs/plugin/weekday";
 import dayjs from 'dayjs';
 
-import ColorMatrix from './ColorMatrix.jsx'
+import ColorMatrix from './ColorMatrix.jsx';
+import StackedAreaChart from './StackedAreaChart.jsx';
 
 import logo from './logo.svg';
 import './App.css';
@@ -32,7 +33,17 @@ function App() {
 					main body!
 
 					<div className="display-details">
-						eeeeee
+						<StackedAreaChart data={
+											  [{
+												  data: [{x: 10, y: 20},
+														 {x: 15, y: 25},
+														 {x: 30, y: 15}],
+												  backgroundColor: '#aaaaaa',
+												  borderColor: ["#ff0000", "#ffff00", "#326ccc"]
+											  }]
+										  } options={
+											  { scales: { } }
+										  }/>
 					</div>
 				</div>
 			</div>

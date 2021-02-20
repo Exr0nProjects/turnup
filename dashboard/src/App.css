@@ -41,7 +41,6 @@
 .App-body {
     background-color: #23200;
     min-height: 93vh;
-    border: 2px solid red;
     display: flex;
     flex-direction: row;
 }
@@ -49,17 +48,19 @@
 .sidebar {
     width: 20vw;
 	height: 93vh;
-    border: 2px solid green;
 }
 
 .main-display {
     width: 79vw;
 	height: 93vh;
-    border: 2px solid blue;
 	overflow: scroll;
 }
 
 .display-details {
 	display: flex;
 	flex-direction: column;
+}
+
+.display-details * {
+	width: 100%;
 }
