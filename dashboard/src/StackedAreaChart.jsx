@@ -11,7 +11,6 @@ export default function StackedAreaChart(props) {
     if (!opts.scales.hasOwnProperty('yAxes'))
         opts.scales.yAxes = Array(props.data.length).fill({});
     opts.scales.yAxes = opts.scales.yAxes.map(x => Object.assign(x, { stacked: true }));
-    console.log(opts);
 
     useEffect(() => { // something about https://reactjs.org/docs/hooks-effect.html
         new Chart(canvasRef.current.getContext("2d"), {
@@ -27,4 +26,3 @@ export default function StackedAreaChart(props) {
         </div>
     </div>
 }
-
