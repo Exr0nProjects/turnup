@@ -40,27 +40,29 @@
 
 .App-body {
     background-color: #23200;
-    min-height: 93vh;
+    min-height: 90vh;
     display: flex;
     flex-direction: row;
 }
 
 .sidebar {
     width: 20vw;
-	height: 93vh;
+	height: 92vh;
 }
 
 .main-display {
-    width: 79vw;
-	height: 93vh;
+    width: 78vw;
+	height: 92vh;
 	overflow: scroll;
 }
 
 .display-details {
-	display: flex;
-	flex-direction: column;
+	/* display: flex; */
+	/* flex-direction: row; */
+	/* flex-wrap: wrap; */
 }
 
-.display-details * {
-	width: 100%;
+.display-details .vis-chart .canvas-wrapper {
+	width: 98%;
+	height: 250px;
 }

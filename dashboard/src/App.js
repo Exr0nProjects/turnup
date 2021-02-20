@@ -8,6 +8,8 @@ import StackedAreaChart from './StackedAreaChart.jsx';
 import logo from './logo.svg';
 import './App.css';
 
+import Chart from 'chart.js'
+
 import { useState } from 'react';
 
 dayjs.extend(dayjs_dayOfYear);
@@ -17,38 +19,56 @@ function App() {
 	const [count, setCount] = useState(364); // number of atoms displayed
 	const [active_frame, setActiveFrame] = useState(undefined);
 
-    return (
-        <div className="App">
-            <header className="App-header">
-                <img src={logo} className="App-logo" alt="logo" />
-            </header>
-            <div className="App-body">
+	// chart.js config
+	Chart.defaults.global.responsive = true;
+	Chart.defaults.global.maintainAspectRatio = false;
+
+	return (
+		<div className="App">
+			<header className="App-header">
+				<img src={logo} className="App-logo" alt="logo" />
+			</header>
+			<div className="App-body">
 				<div className="sidebar">
-				sidebar!
+					sidebar!
 				</div>
 				<div className="main-display">
 					<ColorMatrix count={count} activitySetter={setActiveFrame} type="standard"/>
-					<ColorMatrix count={count} activitySetter={setActiveFrame} type="balanced-gp"/>
-					<ColorMatrix count={count} activitySetter={setActiveFrame} type="does not exist"/>
-					main body!
+					{//<ColorMatrix count={count} activitySetter={setActiveFrame} type="balanced-gp"/>
+					}
 
 					<div className="display-details">
-						<StackedAreaChart data={
-											  [{
-												  data: [{x: 10, y: 20},
-														 {x: 15, y: 25},
-														 {x: 30, y: 15}],
-												  backgroundColor: '#aaaaaa',
-												  borderColor: ["#ff0000", "#ffff00", "#326ccc"]
-											  }]
-										  } options={
-											  { scales: { } }
+						<StackedAreaChart className="detail-chart"
+										  data={
+											  {
+												  labels: ['a', 'b', 'c'],
+												  datasets: [{
+													  label: 'time tracked',
+													  data: [{x: 10, y: 20},
+															 {x: 15, y: 25},
+															 {x: 30, y: 15}],
+													backgroundColor: '#aaaaaa',
+												  }],
+											  }
 										  }/>
-					</div>
+						<StackedAreaChart className="detail-chart"
+										  data={
+											  {
+												  labels: ['a', 'b', 'c'],
+												  datasets: [{
+													  label: 'time tracked',
+													  data: [{x: 10, y: 20},
+															 {x: 15, y: 25},
+															 {x: 30, y: 15}],
+													backgroundColor: '#aaaaaa',
+												  }],
+											  }
+										  }/>
+						</div>
 				</div>
 			</div>
 		</div>
-    );
+	);
 }
 
 export default App;

@@ -5,8 +5,7 @@ import { useRef, useEffect } from 'react';
 import Chart from "chart.js"; // og tutorial: https://blog.bitsrc.io/customizing-chart-js-in-react-2199fa81530a
 
 const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
+    maintainAspectRatio: true,
     fill: true,
 }
 
@@ -27,15 +26,14 @@ function ColorAtomTooltip(props) {
             'Yello',
             'Blu'
         ],
-            options: chartOptions,
     }
 
     useEffect(() => { // something about https://reactjs.org/docs/hooks-effect.html
-        const got = new Chart(canvasRef.current.getContext("2d"), {
+        new Chart(canvasRef.current.getContext("2d"), {
             type: 'polarArea',
             data: data, // TODO: data processing!
+            options: chartOptions,
         });
-        console.log('got', got);
     });
 
     return <div className="color-atom-tooltip">
