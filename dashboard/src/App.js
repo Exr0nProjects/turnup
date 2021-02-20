@@ -11,7 +11,7 @@ import logo from './logo.svg';
 import './App.css';
 import Chart from 'chart.js'
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 dayjs.extend(dayjs_dayOfYear);
 dayjs.extend(dayjs_weekday);
@@ -25,7 +25,13 @@ function App() {
 	const [active_frame, setActiveFrame] = useState(undefined);
 	const [totdata, setTotdata] = useState(undefined);
 
-	Promise.all(datasources.map(name => DataGetters[name]())).then(setTotdata); // TODO: interactively fetch required data
+	useEffect(() => {
+		Promise.all(datasources.map(name => DataGetters[name]()))
+			.then(data => setTotdata(Object.fromEntries(data.map((e, i) => [datasources[i], e])))); // TODO: interactively fetch required data
+	}, []);
+	// Promise.all(datasources.map(name => DataGetters[name]()))
+
+	// Promise.all(datasources.map(name => DataGetters[name]())).then(console.log);
 
 	// chart.js config
 	Chart.defaults.global.responsive = true;
@@ -42,34 +48,15 @@ function App() {
 				</div>
 				<div className="main-display">
 					<ColorMatrix count={count} activitySetter={setActiveFrame} type="standard"/>
-					{//<ColorMatrix count={count} activitySetter={setActiveFrame} type="balanced-gp"/>
+					{
+					//<ColorMatrix count={count} activitySetter={setActiveFrame} type="balanced-gp"/>
 					}
 
-					{/*JSON.stringify(totdata, undefined, 2)*/}
+					{/*<pre>{JSON.stringify(totdata, undefined, 2)}</pre>*/}
 
 					<div className="display-details">
-						<StackedAreaChart className="detail-chart"
-										  data={
-											  {
-												  labels: ['a', 'b', 'c'],
-												  datasets: [
-													  {
-														  label: 'time tracked',
-														  data: [{x: 10, y: 20},
-																 {x: 15, y: 25},
-																 {x: 30, y: 15}],
-														  backgroundColor: '#aaaaaa',
-													  },
-													  {
-														  label: 'other thing',
-														  data: [{x: 10, y: 20},
-																 {x: 15, y: 25},
-																 {x: 30, y: 15}],
-														  backgroundColor: '#326ccc',
-													  }
-												  ],
-											  }
-										  }/>
+						{totdata ? <StackedAreaChart className="detail-chart" data={Summarizers['stackedDurationDaily'](totdata['toggl'])}/> : null }
+						{/*
 						<StackedAreaChart className="detail-chart"
 										  data={
 											  {
@@ -79,11 +66,21 @@ function App() {
 													  data: [{x: 10, y: 20},
 															 {x: 15, y: 25},
 															 {x: 30, y: 15}],
-													backgroundColor: '#aaaaaa',
-												  }],
+													  backgroundColor: '#aaaaaa',
+												  },
+															 {
+																 label: 'other thing',
+																 data: [{x: 10, y: 20},
+																		{x: 15, y: 25},
+																		{x: 30, y: 15}],
+																 backgroundColor: '#326ccc',
+															 }
+
+															],
 											  }
 										  }/>
-						</div>
+						*/}
+					</div>
 				</div>
 			</div>
 		</div>
