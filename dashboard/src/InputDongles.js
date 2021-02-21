@@ -48,6 +48,7 @@ async function toggl() {
 	};
 }
 
-export default {
+const exports = {
 	'toggl': toggl
 };
+export default exports;

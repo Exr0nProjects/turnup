@@ -9,32 +9,32 @@ const chartOptions = {
     fill: true,
 }
 
+
 function ColorAtomTooltip(props) {
     const canvasRef = useRef(null);
 
-    const data = {
-        datasets: [
-            {
-                data: [10, 20, 30],
-                borderColor: ["#ff0000", "#ffff00", "#326ccc"]
-            }
-        ],
-
-        // These labels appear in the legend and in the tooltips when hovering different arcs
-        labels: [
-            'Red',
-            'Yello',
-            'Blu'
-        ],
-    }
-
     useEffect(() => { // something about https://reactjs.org/docs/hooks-effect.html
+        const data = { // moved data declaration here to fix react-hooks/exhaustive-deps warning https://stackoverflow.com/a/55854902/10372825
+            datasets: [
+                {
+                    data: [10, 20, 30],
+                    borderColor: ["#ff0000", "#ffff00", "#326ccc"]
+                }
+            ],
+
+            // These labels appear in the legend and in the tooltips when hovering different arcs
+            labels: [
+                'Red',
+                'Yello',
+                'Blu'
+            ],
+        }
         new Chart(canvasRef.current.getContext("2d"), {
             type: 'polarArea',
             data: data, // TODO: data processing!
             options: chartOptions,
         });
-    });
+    }, []);
 
     return <div className="color-atom-tooltip">
         <div className="atom-canvas">   // TODO: use visualization components

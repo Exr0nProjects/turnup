@@ -54,6 +54,7 @@ function stackedDurationDaily(dataset) {
 	return {labels: ret.keys(), datasets: undefined /*TODO*/ };
 }
 
-export default {
+const exports = {
 	'stackedDurationDaily': stackedDurationDaily,
 }
+export default exports;
