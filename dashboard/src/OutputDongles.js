@@ -26,9 +26,19 @@ function stackedDurationDaily(dataset) {
 	let ret = {};
 	const now = dayjs();
 
+	let value_by_atom = new Map();
+
 	dataset.events.forEach(entry => {
-		const delt = now.diff(dayjs(entry.timestamp));
-		console.log(delt); 		// TODO
+		const delt = now.diff(dayjs(entry.timestamp), 'day');
+		if (!value_by_atom.has(delt))
+			value_by_atom.set(delt, []);
+		value_by_atom.set(delt, value_by_atom.get(delt).concat(entry)); // OPT: horribly inefficient (remove from map and then inserting again)
+	});
+
+	console.log(...value_by_atom);
+
+	value_by_atom.map(v => {
+		console.log(v);
 	});
 
 	return {
