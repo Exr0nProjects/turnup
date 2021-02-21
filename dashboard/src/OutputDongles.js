@@ -11,6 +11,55 @@ function stackedDuration(interval, [reducer, initial],
 	let value_by_atom = {};
     let label_by_atom = {}
 
+    let dataset_labels = [];
+
+	dataset.events.forEach(entry => {
+		const delt = now.diff(dayjs(entry.timestamp), interval);
+		if (!value_by_atom.hasOwnProperty(delt)) {
+            value_by_atom[delt] = [];
+            label_by_atom[delt] = entry.timestamp.format('lll');
+        }
+		value_by_atom[delt].push(entry); // OPT: horribly inefficient (remove from map and then inserting again)
+	});
+
+	Object.entries(value_by_atom).forEach(([k, v]) => {
+		value_by_atom[k] = v.reduce(reducer.bind(null, dataset_labels, initial), {});
+	});
+
+    console.log(value_by_atom);
+
+    // TODO: multi-dataset output (too general for now)
+    //let ret = {};
+    //Object.entries(value_by_atom).forEach((k, v) => {
+    //
+    //});
+
+    const datasets = [{ data: Object.values(value_by_atom), ...options }];
+
+    return {labels: Object.values(label_by_atom), datasets: datasets};
+}
+const stackedDurationReducer = [ (stripes, init, acc, val) => {
+    const stripe_getter = x => x.data.desc;
+    //const stripe_getter = x => x.data.desc.proj;
+    if (!acc.hasOwnProperty(stripe_getter(val))) {
+        acc[stripe_getter(val)] = 0;
+        //stripes.push(stripe_getter(val));
+    }
+    //if (isNaN(acc[stripe_getter(val)])) console.log(acc[stripe_getter(val)]);
+    //console.log(acc[stripe_getter(val)], val.duration)
+    acc[stripe_getter(val)] += val.duration/60/60;
+    //console.log(acc[stripe_getter(val)], val.duration)
+    return acc;
+}, 0 ];
+
+function sumDuration(interval, [reducer, initial],
+    dataset, options={ label: 'hours tracked', backgroundColor: '#326ccc' }) {
+
+	const now = dayjs();
+
+	let value_by_atom = {};
+    let label_by_atom = {}
+
 	dataset.events.forEach(entry => {
 		const delt = now.diff(dayjs(entry.timestamp), interval);
 		if (!value_by_atom.hasOwnProperty(delt)) {
@@ -22,30 +71,22 @@ function stackedDuration(interval, [reducer, initial],
 
 	Object.entries(value_by_atom).forEach(([k, v]) => {
 		value_by_atom[k] = v.reduce(reducer, initial);
-        //console.log(isNaN(value_by_atom[k]));
 	});
 
-    // TODO: multi-dataset output (too general for now)
-    //let ret = {};
-    //Object.entries(value_by_atom).forEach((k, v) => {
-    //
-    //});
-
-    const datasets = [{ data: Object.values(value_by_atom), ...options }];
-
-    //console.log({labels: Object.keys(value_by_atom), datasets: datasets})
-
-    return {labels: Object.values(label_by_atom), datasets: datasets};
+    return { labels: Object.values(label_by_atom), datasets: [{ data: Object.values(value_by_atom), ...options }] };
 }
-
-const stackedReducer = [ (acc, val) => acc + val.duration/60/60, 0 ];
-//const reducer = (acc, val) => { console.log(isNaN(val.duration)); return acc + val.duration/60/60; }
+const sumDurationReducer = [ (acc, val) => acc + val.duration/60/60, 0 ];
 
 const exports = {
-	'stackedDurationHourly':  stackedDuration.bind(null, 'hour',  stackedReducer),
-	'stackedDurationDaily':   stackedDuration.bind(null, 'day',   stackedReducer),
-	'stackedDurationWeekly':  stackedDuration.bind(null, 'week',  stackedReducer),
-	'stackedDurationMonthly': stackedDuration.bind(null, 'month', stackedReducer),
-	'stackedDurationYearly':  stackedDuration.bind(null, 'year',  stackedReducer),
+	'sumDurationHourly':  sumDuration.bind(null, 'hour',  sumDurationReducer),
+	'sumDurationDaily':   sumDuration.bind(null, 'day',   sumDurationReducer),
+	'sumDurationWeekly':  sumDuration.bind(null, 'week',  sumDurationReducer),
+	'sumDurationMonthly': sumDuration.bind(null, 'month', sumDurationReducer),
+	'sumDurationYearly':  sumDuration.bind(null, 'year',  sumDurationReducer),
+    //'stackedDurationHourly':  stackedDuration.bind(null, 'hour',  stackedDurationReducer),
+    //'stackedDurationDaily':   stackedDuration.bind(null, 'day',   stackedDurationReducer),
+    'stackedDurationWeekly':  stackedDuration.bind(null, 'week',  stackedDurationReducer),
+	//'stackedDurationMonthly': stackedDuration.bind(null, 'month', stackedDurationReducer),
+	//'stackedDurationYearly':  stackedDuration.bind(null, 'year',  stackedDurationReducer),
 }
 export default exports;

@@ -38,7 +38,7 @@ async function toggl() {
 				timestamp: start,
 				duration: dura / 1000,
 				tags: [],
-				data: { desc: desc, proj: proj }
+				data: { desc, proj }
 			}
 		}).filter(x => typeof x !== 'undefined'));
 	return {
