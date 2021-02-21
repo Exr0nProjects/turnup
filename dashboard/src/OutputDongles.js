@@ -1,70 +1,51 @@
+import dayjs_localizedFormat from "dayjs/plugin/localizedFormat";
 import dayjs from 'dayjs';
 
-const DAY_CUTOFF = 4; // 4am
+dayjs.extend(dayjs_localizedFormat);
 
-// {
-// 	labels: ['a', 'b', 'c'],
-// 	datasets: [
-// 		{
-// 			label: 'time tracked',
-// 			data: [20,
-// 					25,
-// 					15],
-// 			backgroundColor: '#aaaaaa',
-// 		},
-// 		{
-// 			label: 'other thing',
-// 			data: [{x: 10, y: 20},
-// 					{x: 15, y: 25},
-// 					{x: 30, y: 15}],
-// 			backgroundColor: '#326ccc',
-// 		}
-// 	],
-// }
+function stackedDuration(interval, [reducer, initial],
+    dataset, options={ label: 'hours tracked', backgroundColor: '#326ccc' }) {
 
-function stackedDurationDaily(dataset) {
-	let ret = {};
 	const now = dayjs();
 
-	let value_by_atom = new Map();
+	let value_by_atom = {};
+    let label_by_atom = {}
 
 	dataset.events.forEach(entry => {
-		const delt = now.diff(dayjs(entry.timestamp), 'day');
-		if (!value_by_atom.has(delt))
-			value_by_atom.set(delt, []);
-		value_by_atom.set(delt, value_by_atom.get(delt).concat(entry)); // OPT: horribly inefficient (remove from map and then inserting again)
+		const delt = now.diff(dayjs(entry.timestamp), interval);
+		if (!value_by_atom.hasOwnProperty(delt)) {
+            value_by_atom[delt] = [];
+            label_by_atom[delt] = entry.timestamp.format('lll');
+        }
+		value_by_atom[delt].push(entry); // OPT: horribly inefficient (remove from map and then inserting again)
 	});
 
-	console.log(...value_by_atom);
-
-	value_by_atom.map(v => {
-		console.log(v);
+	Object.entries(value_by_atom).forEach(([k, v]) => {
+		value_by_atom[k] = v.reduce(reducer, initial);
+        //console.log(isNaN(value_by_atom[k]));
 	});
 
-	return {
-		labels: ['a', 'b', 'c'],
-		datasets: [
-			{
-				label: 'time tracked',
-				data: [20,
-						25,
-						15],
-				backgroundColor: '#aaaaaa',
-			},
-			{
-				label: 'other thing',
-				data: [{x: 10, y: 20},
-						{x: 15, y: 25},
-						{x: 30, y: 15}],
-				backgroundColor: '#326ccc',
-			}
-		],
-	}
+    // TODO: multi-dataset output (too general for now)
+    //let ret = {};
+    //Object.entries(value_by_atom).forEach((k, v) => {
+    //
+    //});
 
-	return {labels: ret.keys(), datasets: undefined /*TODO*/ };
+    const datasets = [{ data: Object.values(value_by_atom), ...options }];
+
+    //console.log({labels: Object.keys(value_by_atom), datasets: datasets})
+
+    return {labels: Object.values(label_by_atom), datasets: datasets};
 }
 
+const stackedReducer = [ (acc, val) => acc + val.duration/60/60, 0 ];
+//const reducer = (acc, val) => { console.log(isNaN(val.duration)); return acc + val.duration/60/60; }
+
 const exports = {
-	'stackedDurationDaily': stackedDurationDaily,
+	'stackedDurationHourly':  stackedDuration.bind(null, 'hour',  stackedReducer),
+	'stackedDurationDaily':   stackedDuration.bind(null, 'day',   stackedReducer),
+	'stackedDurationWeekly':  stackedDuration.bind(null, 'week',  stackedReducer),
+	'stackedDurationMonthly': stackedDuration.bind(null, 'month', stackedReducer),
+	'stackedDurationYearly':  stackedDuration.bind(null, 'year',  stackedReducer),
 }
 export default exports;

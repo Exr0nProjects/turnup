@@ -55,31 +55,7 @@ function App() {
 					{/*<pre>{JSON.stringify(totdata, undefined, 2)}</pre>*/}
 
 					<div className="display-details">
-						{totdata ? <StackedAreaChart className="detail-chart" data={Summarizers['stackedDurationDaily'](totdata['toggl'])}/> : null }
-						{/*
-						<StackedAreaChart className="detail-chart"
-										  data={
-											  {
-												  labels: ['a', 'b', 'c'],
-												  datasets: [{
-													  label: 'time tracked',
-													  data: [{x: 10, y: 20},
-															 {x: 15, y: 25},
-															 {x: 30, y: 15}],
-													  backgroundColor: '#aaaaaa',
-												  },
-															 {
-																 label: 'other thing',
-																 data: [{x: 10, y: 20},
-																		{x: 15, y: 25},
-																		{x: 30, y: 15}],
-																 backgroundColor: '#326ccc',
-															 }
-
-															],
-											  }
-										  }/>
-						*/}
+						{totdata ? <StackedAreaChart className="detail-chart" data={Summarizers['stackedDurationMonthly'](totdata['toggl'])}/> : null }
 					</div>
 				</div>
 			</div>

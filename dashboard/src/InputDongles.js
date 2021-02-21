@@ -23,13 +23,13 @@ dayjs.extend(dayjs_customParseFormat);
 
 // TODO: support fetching data by time range
 async function toggl() {
-	const events = await fetch('toggl2.tsv')
+	const events = await fetch('toggl.tsv')
 		.then(res => res.text())    // TODO: stream processing
 		.then(txt => txt.split('\n'))
 		.then(arr => arr.map(row => {
 			// data proc
 			const [id, desc, proj, _start, end] = row.split('	');
-			if (typeof _start === 'undefined') return undefined;
+			if (typeof _start === 'undefined' || !_start || !end) return undefined;
 
 			const start = dayjs(_start, 'hh:mm:ss A MM/DD/YY');
 			const dura = dayjs(end, 'hh:mm:ss A MM/DD/YY').diff(start);
