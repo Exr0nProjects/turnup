@@ -38,7 +38,11 @@ async function toggl() {
 				timestamp: start,
 				duration: dura / 1000,
 				tags: [],
-				data: { desc, proj }
+				data: {
+                    desc,
+                    proj: proj.slice(0, -13),
+                    projID: parseInt(proj.slice(-10, -1)),
+                }
 			}
 		}).filter(x => typeof x !== 'undefined'));
 	return {

@@ -55,7 +55,7 @@ function App() {
 					{/*<pre>{JSON.stringify(totdata, undefined, 2)}</pre>*/}
 
 					<div className="display-details">
-						{totdata ? <StackedAreaChart className="detail-chart" data={Summarizers['stackedDurationWeekly'](totdata['toggl'])}/> : null }
+						{totdata ? <StackedAreaChart className="detail-chart" data={Summarizers['stackedDurationMonthly'](totdata['toggl'])}/> : null }
 					</div>
 				</div>
 			</div>

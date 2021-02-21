@@ -16,7 +16,9 @@ export default function StackedAreaChart(props) {
         new Chart(canvasRef.current.getContext("2d"), {
             type: 'line',
             data: props.data,
-            options: opts,
+            //options: { axisX: { reveresed: true }, title: { text: 'hi' } },
+            //options: { ...opts, scales: { ...opts.scales, xAxes: { reveresed: true } }, title: { text: 'hi' }, },
+            //options: opts,
         });
     });
 
