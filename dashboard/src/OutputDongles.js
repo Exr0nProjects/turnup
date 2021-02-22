@@ -13,7 +13,7 @@ function stackedDuration(interval, reducer, options={ }, dataset) {
     let dataset_labels = new Set();
 
 	dataset.events.forEach(entry => {
-		const delt = now.diff(dayjs(entry.timestamp), interval);
+		const delt = now.diff(dayjs(entry.timestamp), interval); // TODO: use iso 8061 day stamp instead of number
 		if (!value_by_atom.hasOwnProperty(delt)) {
             value_by_atom[delt] = [];
             label_by_atom[delt] = entry.timestamp.format('lll');
@@ -22,7 +22,9 @@ function stackedDuration(interval, reducer, options={ }, dataset) {
 	});
 
 	Object.keys(value_by_atom).forEach(k => {
+        console.log(value_by_atom[k]);
 		value_by_atom[k] = value_by_atom[k].reduce(reducer.bind(null, dataset_labels), {});
+        //console.log(value_by_atom[k]);
 	});
 
     let datasets = [];
