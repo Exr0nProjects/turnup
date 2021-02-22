@@ -24,10 +24,14 @@ function App() {
 	const [count, setCount] = useState(364); // number of atoms displayed
 	const [active_frame, setActiveFrame] = useState(undefined);
 	const [totdata, setTotdata] = useState(undefined);
+    const [curdata, setCurdata] = useState(undefined);
 
 	useEffect(() => {
 		Promise.all(datasources.map(name => DataGetters[name]()))
-			.then(data => setTotdata(Object.fromEntries(data.map((e, i) => [datasources[i], e])))); // TODO: interactively fetch required data
+			.then(data => setTotdata(Object.fromEntries(data.map((e, i) => [datasources[i], e])))) // TODO: interactively fetch required data
+            .then(() => {
+                setCurdata(Summarizers['stackedDurationWeekly'](totdata['toggl']));
+            });
 	}, []);
 	// Promise.all(datasources.map(name => DataGetters[name]()))
 
@@ -47,7 +51,7 @@ function App() {
 					sidebar!
 				</div>
 				<div className="main-display">
-					<ColorMatrix count={count} activitySetter={setActiveFrame} type="standard"/>
+                    {totdata ? <ColorMatrix data={curdata} type="standard"/> : null }
 					{
 					//<ColorMatrix count={count} activitySetter={setActiveFrame} type="balanced-gp"/>
 					}
@@ -55,7 +59,7 @@ function App() {
 					{/*<pre>{JSON.stringify(totdata, undefined, 2)}</pre>*/}
 
 					<div className="display-details">
-						{totdata ? <StackedAreaChart className="detail-chart" data={Summarizers['stackedDurationWeekly'](totdata['toggl'])}/> : null }
+						{totdata ? <StackedAreaChart data={curdata}/> : null }
 					</div>
 				</div>
 			</div>

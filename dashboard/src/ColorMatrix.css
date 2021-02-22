@@ -13,3 +13,36 @@
 	flex-direction: column-reverse;
 	flex-wrap: wrap-reverse;
 }
+.color-atom {
+	flex: 0 0 10%;
+	width: 20px;
+	height: 20px;
+	border: 1px solid white;
+	position: relative;
+}
+
+.color-atom.placeholder {
+	border: 0px;
+	margin: 1px;
+	color: transparent;
+}
+
+.color-atom .color-atom-tooltip {
+	display: none;
+}
+
+.color-atom:hover .color-atom-tooltip {
+	display: block;
+	border: 2px solid white;
+	box-shadow: 1px 1px 3px gray;
+	position: absolute;
+	background-color: #ffffff;
+	pointer-events: none;
+}
+
+.color-atom-tooltip .atom-canvas {
+	width: 400px;
+	max-height: 450px;
+	padding-bottom: 20px;
+}
+
