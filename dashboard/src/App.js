@@ -56,18 +56,10 @@ function App() {
 				<div className="sidebar">
 					sidebar!
 				</div>
-				<div className="main-display">
-                    {curdata ? <ColorMatrix data={Summarizers['stackedDurationDaily'](curdata)} type="standard"/> : null }
-					{
-					//<ColorMatrix count={count} activitySetter={setActiveFrame} type="balanced-gp"/>
-					}
-
-					{/*<pre>{JSON.stringify(totdata, undefined, 2)}</pre>*/}
-
-					<div className="display-details">
-						{curdata ? <StackedAreaChart data={Summarizers['stackedDurationWeekly'](curdata)}/> : null }
-					</div>
-				</div>
+                {curdata ?  <div className="main-display">
+<ColorMatrix data={Summarizers['stackedDurationDaily'](curdata)} type="standard"/>
+<StackedAreaChart data={Summarizers['stackedDurationDaily'](curdata)}/>
+				</div> : null }
 			</div>
 		</div>
 	);

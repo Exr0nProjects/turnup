@@ -76,13 +76,17 @@ function ColorAtom(props) {
 
 const matrix_renderers = {
     "standard": (props) => {
-        return <div className="color-matrix">
+        return <div className="vis-chart">
             <div className="squareholder">
                 {Array.from({length: 6-dayjs().weekday()}).map(
                     (_, i) => <div className="color-atom placeholder" key={`placeholder_${i}`}>f</div>
                 )}
                 {props.data.labels.map(
-                    (label, i) => <ColorAtom key={`day_${label}`} activitySetter={props.activitySetter} atomdata={props.data.datasets.map(obj => { return {...obj, 'data': obj.data[i]/obj.max}} )}/>
+                    (label, i) => <ColorAtom
+                        key={`day_${label}`}
+                        activitySetter={props.activitySetter}
+                        atomdata={props.data.datasets.map(obj => { return {...obj, data: obj.data[i]/obj.max}} )}
+                    />
                 )}
             </div>
         </div>;
