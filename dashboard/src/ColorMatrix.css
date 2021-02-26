@@ -10,6 +10,9 @@
     display: flex;
 	display: -ms-flexbox;
     display: -webkit-flex;
+    /*padding-left: 50px;*/
+    /*padding-right: 90px;*/
+    border: 1px solid blue;
 	flex-direction: column-reverse;
 	flex-wrap: wrap-reverse;
 }

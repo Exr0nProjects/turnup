@@ -25,7 +25,7 @@ function ColorAtomTooltip(props) {
         const data = {
             datasets: [
                 {
-                    data: props.atomdata.map(obj => obj.data),
+                    data: props.atomdata.map(obj => obj.data*100),
                     borderColor: props.atomdata.map(obj => obj.backgroundColor),
                 }
             ],
@@ -34,24 +34,40 @@ function ColorAtomTooltip(props) {
         new Chart(canvasRef.current.getContext("2d"), {
             type: 'polarArea',
             data,
-            options: chartOptions,
+            options: chartOptions 
+            //options: { chartOptions, scale: { ...chartOptions.scale, ticks: { beginAtZero: true, max: 100 } } }
         });
     }, []);
 
     return <div className="color-atom-tooltip">
-        <div className="atom-canvas">   // TODO: use visualization components
+        <div className="atom-canvas">
             <canvas ref={canvasRef}/>
         </div>
     </div>
 }
 
 function ColorAtom(props) {
-    function clickHandler() {
-        props.activitySetter(props.data);
-    }
+    const lower = [237, 244, 255];
+    const upper = [  0,  58, 153];
+    const grad_fn = (ratio) => {
+        return '#' + [
+            Math.floor(lower[0]*(1-ratio) + upper[0]*ratio).toString(16).padStart(2, '0'),
+            Math.floor(lower[1]*(1-ratio) + upper[1]*ratio).toString(16).padStart(2, '0'),
+            Math.floor(lower[2]*(1-ratio) + upper[2]*ratio).toString(16).padStart(2, '0'),
+        ].join('');
+    };
+    const color = grad_fn(props.atomdata.map(obj => obj.data).reduce((a, c) => a+c)/props.atomdata.length);
+
+    //console.log(color)
+    //function clickHandler() {
+    //    props.activitySetter(props.data);
+    //}
     return <div
             className="color-atom"
-            onClick={clickHandler}
+            style={{
+                backgroundColor: color
+            }}
+            //onClick={clickHandler}
         >
         hi
         <ColorAtomTooltip shown={false} atomdata={props.atomdata}/>
@@ -66,7 +82,7 @@ const matrix_renderers = {
                     (_, i) => <div className="color-atom placeholder" key={`placeholder_${i}`}>f</div>
                 )}
                 {props.data.labels.map(
-                    (label, i) => <ColorAtom key={`day_${label}`} activitySetter={props.activitySetter} atomdata={props.data.datasets.map(obj => { return {...obj, 'data': obj.data[i]}} )}/>
+                    (label, i) => <ColorAtom key={`day_${label}`} activitySetter={props.activitySetter} atomdata={props.data.datasets.map(obj => { return {...obj, 'data': obj.data[i]/obj.max}} )}/>
                 )}
             </div>
         </div>;
@@ -74,6 +90,8 @@ const matrix_renderers = {
 }
 
 export default function ColorMatrix(props) {
+    props.data.datasets = props.data.datasets.map(obj => { return { ...obj, max: obj.data.reduce((a, c) => Math.max(a, c), 0) } });
+
     if (matrix_renderers.hasOwnProperty(props.type))
         return matrix_renderers[props.type](props);
     else
