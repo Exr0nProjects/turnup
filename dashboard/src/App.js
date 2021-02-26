@@ -2,6 +2,7 @@ import dayjs_dayOfYear from "dayjs/plugin/dayOfYear";
 import dayjs_weekday from "dayjs/plugin/weekday";
 import dayjs from 'dayjs';
 
+import SharedLegend from './SharedLegend.jsx';
 import ColorMatrix from './ColorMatrix.jsx';
 import StackedAreaChart from './StackedAreaChart.jsx';
 import DataGetters from './InputDongles.js';
@@ -26,7 +27,7 @@ function App() {
     const [curdata, setCurdata] = useState(undefined);
 
 	useEffect(() => {
-		Promise.all(datasources.map(name => DataGetters[name]()))
+		Promise.all(datasources.map(name => DataGetters[name]())) // TODO: interactievly fetch required ranges
         .then(data => {
             const remapped = Object.fromEntries(data.map(
                 (e, i) => [datasources[i], e]
@@ -34,14 +35,7 @@ function App() {
             //const summed = Summarizers['stackedDurationWeekly'](remapped['toggl']);
             setCurdata(remapped['toggl']);
         });
-			//.then(data => setTotdata(Object.fromEntries(data.map((e, i) => [datasources[i], e])))) // TODO: interactively fetch required data
-            //.then(() => {
-            //    setCurdata(Summarizers['stackedDurationWeekly'](totdata['toggl']));
-            //});
 	}, []);
-	// Promise.all(datasources.map(name => DataGetters[name]()))
-
-	// Promise.all(datasources.map(name => DataGetters[name]())).then(console.log);
 
 	// chart.js config
 	Chart.defaults.global.responsive = true;
@@ -55,8 +49,9 @@ function App() {
 			<div className="App-body">
 				<div className="sidebar">
 					sidebar!
+                    <SharedLegend data={curdata} dataSetter={setCurdata}/>
 				</div>
-                {curdata ?  <div className="main-display">
+                {curdata ? <div className="main-display">
 <ColorMatrix data={Summarizers['stackedDurationDaily'](curdata)} type="standard"/>
 <StackedAreaChart data={Summarizers['stackedDurationDaily'](curdata)}/>
 				</div> : null }

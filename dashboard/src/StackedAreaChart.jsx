@@ -1,4 +1,5 @@
 import Chart from 'chart.js';
+import defaultChartOptions from './chartOptions.js';
 
 import { useRef, useEffect } from 'react';
 
@@ -6,7 +7,7 @@ export default function StackedAreaChart(props) {
     const canvasRef = useRef(null);
 
     // make sure the y axis is filled
-    let opts = props.options ?? {};
+    let opts = {...props.options, legend: { display: false } };
     if (!opts.hasOwnProperty('scales'))
         opts.scales = {};
     if (!opts.scales.hasOwnProperty('yAxes'))
@@ -27,12 +28,13 @@ export default function StackedAreaChart(props) {
 
     // create the actual chart
     useEffect(() => { // something about https://reactjs.org/docs/hooks-effect.html
-        new Chart(canvasRef.current.getContext("2d"), {
+        var chart = new Chart(canvasRef.current.getContext("2d"), {
             type: 'line',
             data,
             options: opts,
         });
-    });
+        document.getElementById('shared-legend').innerHTML = chart.generateLegend();    // https://codepen.io/srajagop/pen/yLBJOOo
+    }, [data, opts]);
 
     // what we actually render
     return <div className="vis-chart">

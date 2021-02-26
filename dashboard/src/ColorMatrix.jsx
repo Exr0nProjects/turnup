@@ -1,4 +1,5 @@
 import { Error } from './Utils.jsx';
+import chartOptions from './chartOptions.js';
 
 import dayOfYear from "dayjs/plugin/dayOfYear";
 import dayjs_weekday from "dayjs/plugin/weekday";
@@ -13,11 +14,6 @@ import Chart from "chart.js"; // og tutorial: https://blog.bitsrc.io/customizing
 dayjs.extend(dayOfYear);
 dayjs.extend(dayjs_weekday);
 
-const chartOptions = {
-    maintainAspectRatio: true,
-    fill: true,
-}
-
 function ColorAtomTooltip(props) {
     const canvasRef = useRef(null);
 
@@ -31,13 +27,15 @@ function ColorAtomTooltip(props) {
             ],
             labels: props.atomdata.map(obj => obj.label)
         };
-        new Chart(canvasRef.current.getContext("2d"), {
+        const chart = new Chart(canvasRef.current.getContext("2d"), {
+
             type: 'polarArea',
             data,
             options: chartOptions 
             //options: { chartOptions, scale: { ...chartOptions.scale, ticks: { beginAtZero: true, max: 100 } } }
         });
-    }, []);
+        //document.getElementById('shared-legend').innerHTML = chart.generateLegend();
+    }, [props.atomdata]);
 
     return <div className="color-atom-tooltip">
         <div className="atom-canvas">
@@ -69,7 +67,6 @@ function ColorAtom(props) {
             }}
             //onClick={clickHandler}
         >
-        hi
         <ColorAtomTooltip shown={false} atomdata={props.atomdata}/>
     </div>
 }
