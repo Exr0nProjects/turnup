@@ -22,7 +22,7 @@ function stackedDuration(interval, reducer, options={ }, dataset) {
 	});
 
 	Object.keys(value_by_atom).forEach(k => {
-        console.log(value_by_atom[k]);
+        //console.log(value_by_atom[k]);
 		value_by_atom[k] = value_by_atom[k].reduce(reducer.bind(null, dataset_labels), {});
         //console.log(value_by_atom[k]);
 	});

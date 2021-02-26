@@ -7,7 +7,7 @@
 .squareholder {
 	height: 160px;
 	width: 100%;
-	diplay: flex;
+    display: flex;
 	display: -ms-flexbox;
     display: -webkit-flex;
 	flex-direction: column-reverse;
@@ -19,6 +19,7 @@
 	height: 20px;
 	border: 1px solid white;
 	position: relative;
+    margin-left: 0px;
 }
 
 .color-atom.placeholder {

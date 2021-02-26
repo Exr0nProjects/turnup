@@ -22,24 +22,18 @@ function ColorAtomTooltip(props) {
     const canvasRef = useRef(null);
 
     useEffect(() => { // something about https://reactjs.org/docs/hooks-effect.html
-        const data = { // moved data declaration here to fix react-hooks/exhaustive-deps warning https://stackoverflow.com/a/55854902/10372825
+        const data = {
             datasets: [
                 {
-                    data: [10, 20, 30],
-                    borderColor: ["#ff0000", "#ffff00", "#326ccc"]
+                    data: props.atomdata.map(obj => obj.data),
+                    borderColor: props.atomdata.map(obj => obj.backgroundColor),
                 }
             ],
-
-            // These labels appear in the legend and in the tooltips when hovering different arcs
-            labels: [
-                'Red',
-                'Yello',
-                'Blu'
-            ],
-        }
+            labels: props.atomdata.map(obj => obj.label)
+        };
         new Chart(canvasRef.current.getContext("2d"), {
             type: 'polarArea',
-            data: data, // TODO: data processing!
+            data,
             options: chartOptions,
         });
     }, []);
@@ -59,21 +53,20 @@ function ColorAtom(props) {
             className="color-atom"
             onClick={clickHandler}
         >
-        {JSON.stringify(props)}
-        <ColorAtomTooltip shown={false}/>
+        hi
+        <ColorAtomTooltip shown={false} atomdata={props.atomdata}/>
     </div>
 }
 
 const matrix_renderers = {
     "standard": (props) => {
         return <div className="color-matrix">
-            <p>hello world with {JSON.stringify(props)}</p>
             <div className="squareholder">
                 {Array.from({length: 6-dayjs().weekday()}).map(
                     (_, i) => <div className="color-atom placeholder" key={`placeholder_${i}`}>f</div>
                 )}
-                {Array.from({length: props.data.labels.length}).map(
-                    (_, i) => <ColorAtom key={`day_${i}`} activitySetter={props.activitySetter} data={props.data}/>
+                {props.data.labels.map(
+                    (label, i) => <ColorAtom key={`day_${label}`} activitySetter={props.activitySetter} atomdata={props.data.datasets.map(obj => { return {...obj, 'data': obj.data[i]}} )}/>
                 )}
             </div>
         </div>;

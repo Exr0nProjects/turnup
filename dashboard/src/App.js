@@ -23,15 +23,21 @@ const datasources = ['toggl'];
 function App() {
 	const [count, setCount] = useState(364); // number of atoms displayed
 	const [active_frame, setActiveFrame] = useState(undefined);
-	const [totdata, setTotdata] = useState(undefined);
     const [curdata, setCurdata] = useState(undefined);
 
 	useEffect(() => {
 		Promise.all(datasources.map(name => DataGetters[name]()))
-			.then(data => setTotdata(Object.fromEntries(data.map((e, i) => [datasources[i], e])))) // TODO: interactively fetch required data
-            .then(() => {
-                setCurdata(Summarizers['stackedDurationWeekly'](totdata['toggl']));
-            });
+        .then(data => {
+            const remapped = Object.fromEntries(data.map(
+                (e, i) => [datasources[i], e]
+            ));
+            //const summed = Summarizers['stackedDurationWeekly'](remapped['toggl']);
+            setCurdata(remapped['toggl']);
+        });
+			//.then(data => setTotdata(Object.fromEntries(data.map((e, i) => [datasources[i], e])))) // TODO: interactively fetch required data
+            //.then(() => {
+            //    setCurdata(Summarizers['stackedDurationWeekly'](totdata['toggl']));
+            //});
 	}, []);
 	// Promise.all(datasources.map(name => DataGetters[name]()))
 
@@ -51,7 +57,7 @@ function App() {
 					sidebar!
 				</div>
 				<div className="main-display">
-                    {totdata ? <ColorMatrix data={curdata} type="standard"/> : null }
+                    {curdata ? <ColorMatrix data={Summarizers['stackedDurationDaily'](curdata)} type="standard"/> : null }
 					{
 					//<ColorMatrix count={count} activitySetter={setActiveFrame} type="balanced-gp"/>
 					}
@@ -59,7 +65,7 @@ function App() {
 					{/*<pre>{JSON.stringify(totdata, undefined, 2)}</pre>*/}
 
 					<div className="display-details">
-						{totdata ? <StackedAreaChart data={curdata}/> : null }
+						{curdata ? <StackedAreaChart data={Summarizers['stackedDurationWeekly'](curdata)}/> : null }
 					</div>
 				</div>
 			</div>
